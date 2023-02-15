@@ -1,0 +1,10 @@
+{
+  "extends": ["react-app", "react-app/jest"],
+  "rules": {
+    "react/prop-types": 0,
+    "object-shorthand": ["warn", "always"],
+    "no-console": "warn",
+    "react/jsx-props-no-spreading": "warn",
+    "no-shadow": "warn"
+  }
+}
