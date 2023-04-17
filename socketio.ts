@@ -1,7 +1,8 @@
-const socketio = require("socket.io");
+import http from "http";
+import { Server } from "socket.io";
 
-const initSocketIO = (server) => {
-  const io = socketio(server, {
+const initSocketIO = (server: http.Server) => {
+  const io = new Server(server, {
     cors: {
       origin: process.env.CLIENT_PORT ?? "http://localhost:3000",
     },
@@ -28,4 +29,4 @@ const initSocketIO = (server) => {
   });
 };
 
-module.exports = { initSocketIO };
+export { initSocketIO };
