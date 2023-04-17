@@ -8,7 +8,7 @@ const App = () => {
   const [chat, setChat] = useState<any>([]);
   const [clientMsg, setClientMsg] = useState("");
   const [username, setUsername] = useState<string | undefined>("");
-  const socket = io("http://localhost:5000");
+  const socket = io("http://localhost:8000");
 
   useEffect(() => {
     socket.on("connect", () => {});
