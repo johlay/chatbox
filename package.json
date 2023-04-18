@@ -2,7 +2,7 @@
   "name": "helpchat-server",
   "version": "1.0.0",
   "description": "Help chat application for server side",
-  "main": "server.js",
+  "main": "server.ts",
   "scripts": {
     "start:prod": "ts-node server.ts",
     "start:dev": "nodemon server.ts"
