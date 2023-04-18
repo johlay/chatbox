@@ -2,15 +2,15 @@ import app from "./express";
 import http from "http";
 import routes from "./mvc/routes";
 import { initSocketIO } from "./socketio";
+import config from "./config/config";
 
-const PORT: number = Number(process.env.PORT) || 8000;
+const PORT: number = config.port;
 
 const server = http.createServer(app);
 
 // initiate socketio
 initSocketIO(server);
 
-// routes
 app.use("/api/", routes);
 
 server.listen(PORT, () => {
