@@ -1,3 +1,4 @@
+import logo from "../assets/logo.png";
 import { Drawer } from "./Drawer";
 import { drawer as drawerVariables } from "./Variables";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -57,7 +58,10 @@ const Header = (props: HeaderProps) => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            Helpchat
+            <Box component={"span"} sx={{ paddingRight: "0.2rem" }}>
+              Helpchat
+            </Box>
+            <Box component={"img"} src={logo} alt="logo" />
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
