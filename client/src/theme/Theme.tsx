@@ -4,7 +4,7 @@ import createTheme from "@mui/material/styles/createTheme";
 export const theme = createTheme({
   palette: {
     background: {
-      default: grey["A200"],
+      default: blueGrey[200],
     },
     primary: {
       main: blueGrey[500],
