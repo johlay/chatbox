@@ -16,9 +16,11 @@ type MobileDrawerProps = {
   };
 };
 
-export const Drawer = (props: DrawerProps & MobileDrawerProps) => {
-  const { children, MobileProps, ...rest } = props;
-
+export const Drawer = ({
+  children,
+  MobileProps,
+  ...props
+}: DrawerProps & MobileDrawerProps) => {
   const mobileDrawer = (
     <Box onClick={MobileProps.onClick} sx={{ textAlign: "center" }}>
       <Typography color={"#fff"} variant="h6" sx={{ my: 2 }}>
@@ -39,7 +41,7 @@ export const Drawer = (props: DrawerProps & MobileDrawerProps) => {
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <MuiDrawer {...rest}>
+    <MuiDrawer {...props}>
       {children}
       {mobileDrawer}
     </MuiDrawer>

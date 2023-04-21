@@ -1,6 +1,9 @@
 import logo from "../assets/logo.png";
 import { Drawer } from "./Drawer";
-import { drawer as drawerVariables } from "./Variables";
+import {
+  drawer as drawerVariables,
+  margin as marginVariables,
+} from "./Variables";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -40,7 +43,7 @@ const Header = (props: HeaderProps) => {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", marginBottom: marginVariables.m16 }}>
       <CssBaseline />
       <AppBar position="static" component="nav">
         <Toolbar>
