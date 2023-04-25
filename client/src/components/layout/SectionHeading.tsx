@@ -1,4 +1,4 @@
-import { margin as marginVariables } from "./Variables";
+import { margin as marginVariables } from "../Variables";
 import { Container } from "@mui/material";
 import Stack, { StackProps } from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";

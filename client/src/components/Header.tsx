@@ -31,7 +31,7 @@ const navItems: NavItem[] = [
   { url: "/login", text: "Login" },
 ];
 
-const Header = (props: HeaderProps) => {
+export const Header = (props: HeaderProps) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -111,5 +111,3 @@ const Header = (props: HeaderProps) => {
     </Box>
   );
 };
-
-export default Header;

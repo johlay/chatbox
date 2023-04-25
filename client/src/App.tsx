@@ -1,6 +1,6 @@
-import Header from "./components/Header";
-import LoginPage from "./features/login/LoginPage";
-import RegisterPage from "./features/register/RegisterPage";
+import { Header } from "./components/";
+import { LoginPage } from "./features/login/LoginPage";
+import { RegisterPage } from "./features/register/RegisterPage";
 import { theme } from "./theme/Theme";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
