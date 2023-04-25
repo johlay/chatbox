@@ -1,37 +1,10 @@
-import { margin as marginVariables } from "../../components/Variables";
+import { FormButton } from "../../components/";
+import { FieldSection, FormSection } from "../../components/layout";
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
-import { ReactNode } from "react";
 
-const FormSection = ({ children }: { children?: ReactNode }) => (
-  <div>{children}</div>
-);
-
-const FieldSection = ({ children }: { children: ReactNode }) => {
-  return (
-    <Stack
-      direction={"row"}
-      justifyContent={"center"}
-      spacing={2}
-      sx={{ marginBottom: marginVariables.m16 }}
-    >
-      {children}
-    </Stack>
-  );
-};
-
-const FormButton = ({ text }: { text: string }) => {
-  return (
-    <Button type="submit" variant="contained">
-      {text}
-    </Button>
-  );
-};
-
-const FormTextField = styled(TextField)(
+const _FormTextField = styled(TextField)(
   ({
     fontColor = "#fff",
     variant,
@@ -69,54 +42,49 @@ const FormTextField = styled(TextField)(
   })
 );
 
-const RegisterForm = () => {
+export const RegisterForm = () => {
   return (
     <Box component="form" autoComplete="off">
       <FormSection>
         <FieldSection>
-          <FormTextField
-            fontColor={"#fff"}
+          <TextField
+            aria-required
+            aria-label="input first name"
+            required
             label="First name"
             size="medium"
+            type="text"
             variant="outlined"
           />
         </FieldSection>
-
         <FieldSection>
-          <FormTextField
+          <TextField
             aria-required
+            aria-label="input last name"
             required
-            label={"First name"}
+            label="Last name"
             size="medium"
             type="text"
             variant="outlined"
           />
         </FieldSection>
         <FieldSection>
-          <FormTextField
+          <TextField
             aria-required
+            aria-label="input user email"
             required
-            label={"Last name"}
-            size="medium"
-            type="text"
-            variant="outlined"
-          />
-        </FieldSection>
-        <FieldSection>
-          <FormTextField
-            aria-required
-            required
-            label={"Email"}
+            label="Email"
             size="medium"
             type="email"
             variant="outlined"
           />
         </FieldSection>
         <FieldSection>
-          <FormTextField
+          <TextField
             aria-required
+            aria-label="input user password"
             required
-            label={"Password"}
+            label="Password"
             size="medium"
             type="password"
             variant="outlined"
@@ -130,5 +98,3 @@ const RegisterForm = () => {
     </Box>
   );
 };
-
-export default RegisterForm;

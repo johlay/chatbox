@@ -1,8 +1,8 @@
-import { SectionContainer } from "../../components/SectionContainer";
-import { SectionHeading } from "../../components/SectionHeading";
-import RegisterForm from "./RegisterForm";
+import { SectionContainer } from "../../components/layout/";
+import { SectionHeading } from "../../components/layout/";
+import { RegisterForm } from "./RegisterForm";
 
-const RegisterPage = () => {
+export const RegisterPage = () => {
   return (
     <SectionContainer>
       <SectionHeading
@@ -13,5 +13,3 @@ const RegisterPage = () => {
     </SectionContainer>
   );
 };
-
-export default RegisterPage;
