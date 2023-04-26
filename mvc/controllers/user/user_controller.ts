@@ -22,7 +22,7 @@ const login = async (req: Request, res: Response) => {
     if (!user) {
       return res
         .status(403)
-        .json({ status: "error", message: "Authentication was unsuccessful" });
+        .json({ message: "Authentication was unsuccessful", status: "error" });
     }
 
     const { _id, first_name, last_name, password: userDbPassword } = user;
@@ -33,14 +33,14 @@ const login = async (req: Request, res: Response) => {
     const jwt_access_token = getJwtAccessToken(payload);
 
     return res.status(200).json({
-      status: "success",
-      message: "Authentication was successful",
       data: { access_token: jwt_access_token, user: payload },
+      message: "Authentication was successful",
+      status: "success",
     });
   } catch (error: unknown) {
     return res
       .status(401)
-      .json({ status: "error", message: "Authentication was unsuccessful" });
+      .json({ message: "Authentication was unsuccessful", status: "error" });
   }
 };
 
@@ -68,20 +68,20 @@ const register = async (req: Request, res: Response) => {
 
       await User.create(payload).then((data) =>
         res.status(201).json({
-          status: "success",
-          message: "Successfully created a new user",
           data,
+          message: "Successfully created a new user",
+          status: "success",
         })
       );
     } else {
       return res.status(409).json({
-        status: "error",
         message: "The email address you have entered is already registered",
+        status: "error",
       });
     }
   } catch (error: unknown) {
     if (error instanceof Error) {
-      return res.status(500).send({ status: "error", message: error.message });
+      return res.status(500).send({ message: error.message, status: "error" });
     }
   }
 };
