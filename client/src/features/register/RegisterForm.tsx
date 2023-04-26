@@ -1,8 +1,10 @@
+import { useAuth, User } from "../../authorization/AuthProvider";
 import { FormButton } from "../../components/";
 import { FieldSection, FormSection } from "../../components/layout";
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import { useState } from "react";
 
 const _FormTextField = styled(TextField)(
   ({
@@ -42,9 +44,38 @@ const _FormTextField = styled(TextField)(
   })
 );
 
+const checkFormInput = (user: User): boolean =>
+  Object.values(user).every((detail) => detail.length > 0);
+
 export const RegisterForm = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const firstnameError = useState<boolean>(false);
+  const lastnameError = useState<boolean>(false);
+  const emailError = useState<boolean>(false);
+  const passwordError = useState<boolean>(false);
+
+  const { register } = useAuth();
+
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const payload = {
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      password,
+    };
+
+    if (checkFormInput(payload)) {
+      register(payload);
+    }
+  };
+
   return (
-    <Box component="form" autoComplete="off">
+    <Box component="form" autoComplete="off" onSubmit={(e) => onFormSubmit(e)}>
       <FormSection>
         <FieldSection>
           <TextField
@@ -55,6 +86,7 @@ export const RegisterForm = () => {
             size="medium"
             type="text"
             variant="outlined"
+            onChange={(e) => setFirstName(e.target.value)}
           />
         </FieldSection>
         <FieldSection>
@@ -66,6 +98,7 @@ export const RegisterForm = () => {
             size="medium"
             type="text"
             variant="outlined"
+            onChange={(e) => setLastName(e.target.value)}
           />
         </FieldSection>
         <FieldSection>
@@ -77,6 +110,7 @@ export const RegisterForm = () => {
             size="medium"
             type="email"
             variant="outlined"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </FieldSection>
         <FieldSection>
@@ -88,6 +122,7 @@ export const RegisterForm = () => {
             size="medium"
             type="password"
             variant="outlined"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </FieldSection>
 
