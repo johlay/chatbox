@@ -1,6 +1,7 @@
 import { useAuth, User } from "../../authorization/AuthProvider";
 import { FormButton } from "../../components/";
 import { FieldSection, FormSection } from "../../components/layout";
+import { useToast } from "../../hooks/useToast";
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -58,8 +59,9 @@ export const RegisterForm = () => {
   const passwordError = useState<boolean>(false);
 
   const { register } = useAuth();
+  const { updateToast } = useToast();
 
-  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const payload = {
@@ -70,7 +72,19 @@ export const RegisterForm = () => {
     };
 
     if (checkFormInput(payload)) {
-      register(payload);
+      const { message, status } = await register(payload);
+
+      switch (status) {
+        case 201: {
+          updateToast({ message, variant: "success" });
+          break;
+        }
+
+        case 409: {
+          updateToast({ message });
+          break;
+        }
+      }
     }
   };
 

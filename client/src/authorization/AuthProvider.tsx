@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { ReactNode, createContext, useContext, useState } from "react";
 
 const base_url = "http://localhost:8000";
@@ -10,8 +10,20 @@ export type User = {
   password: string;
 };
 
+export interface AuthResponseSuccess {
+  data: User;
+  message: string;
+  status: number;
+}
+
+export interface AuthResponseError {
+  data: null;
+  message: string;
+  status: number;
+}
+
 type Context = {
-  register: (user: User) => void;
+  register: (user: User) => Promise<AuthResponseError | AuthResponseSuccess>;
 };
 
 const AuthContext = createContext<Context>({} as Context);
@@ -25,24 +37,36 @@ export const AuthProvider = ({ children }: Props) => {
 
   /**
    * register a new user
-   * @param x -
-   * @returns
+   * @param user - input of type "User"
+   * @returns an object containing information on the newly registered user.
    */
-  const register = async (userInformation: User) => {
+  const register = async (
+    userInformation: User
+  ): Promise<AuthResponseError | AuthResponseSuccess> => {
     try {
-      await axios
-        .post(`${base_url}/api/user/register`, userInformation)
-        .then((res: AxiosResponse) => {
-          if (res.status === 201) {
-            return {
-              status: res.status,
-              data: res.data,
-            };
-          }
-        });
+      const response = await axios.post(
+        `${base_url}/api/user/register`,
+        userInformation
+      );
+
+      return {
+        data: response.data.data,
+        message: response.data.message,
+        status: response.status,
+      };
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        return { status: error.response.status, data: error.response.data };
+        return {
+          data: null,
+          message: error.response.data.message,
+          status: error.response.status,
+        };
+      } else {
+        return {
+          data: null,
+          message: "Bad Gateway error",
+          status: 502,
+        };
       }
     }
   };
