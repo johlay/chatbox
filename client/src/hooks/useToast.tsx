@@ -3,6 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import { SnackbarKey, VariantType, useSnackbar } from "notistack";
 
 type Toast = {
+  autoHideDuration?: number;
   message: string;
   variant?: VariantType;
 };
@@ -18,10 +19,14 @@ export const useToast = () => {
     </>
   );
 
-  const updateToast = ({ message, variant = "error" }: Toast) =>
+  const updateToast = ({
+    autoHideDuration,
+    message,
+    variant = "error",
+  }: Toast) =>
     enqueueSnackbar({
       action,
-      autoHideDuration: 5000,
+      autoHideDuration,
       message,
       variant,
     });
