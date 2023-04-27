@@ -2,6 +2,13 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type SetValue<T> = Dispatch<SetStateAction<T>>;
 
+/**
+ *
+ * @param key a string to identify the value being cached
+ * @param initialValue the default value
+ * @returns "value": stateful value,  "setValue": set state action to update stateful value
+ * @example const [storage, setStorage] = useLocalStorage<User>("user");
+ */
 export const useLocalStorage = <T,>(
   key: string,
   initialValue?: T
