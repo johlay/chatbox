@@ -10,7 +10,7 @@ type TSectionHeading = {
   subtext?: string;
 };
 
-const HeaderStack = ({ children, ...props }: StackProps) => {
+export const HeaderStack = ({ children, ...props }: StackProps) => {
   return (
     <Stack
       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -24,7 +24,7 @@ const HeaderStack = ({ children, ...props }: StackProps) => {
   );
 };
 
-const Subtext = ({ subtext }: { subtext: string }) => {
+export const Subtext = ({ subtext }: { subtext: string }) => {
   return <Typography variant={"subtitle1"}>{subtext}</Typography>;
 };
 

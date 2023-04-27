@@ -55,10 +55,14 @@ export const NavMenuLoggedIn = () => {
 
   const handleLogout = () => {
     logout();
+    handleClose();
     navigate("/");
   };
 
-  const handleNavigation = (url: Url) => navigate(url);
+  const handleNavigation = (url: Url) => {
+    handleClose();
+    navigate(url);
+  };
 
   return (
     <>
