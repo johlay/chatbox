@@ -1,5 +1,12 @@
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import axios from "axios";
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const base_url = "http://localhost:8000";
 
@@ -52,6 +59,15 @@ interface Props {
 
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
+  const [storage, setStorage] = useLocalStorage<User>("user");
+
+  useEffect(() => {
+    if (!storage) {
+      return;
+    }
+
+    return setUser(storage);
+  }, []);
 
   /**
    * login an user
@@ -69,6 +85,7 @@ export const AuthProvider = ({ children }: Props) => {
 
       if (response.status === 200) {
         setUser(response.data.data.user);
+        setStorage(response.data.data.user);
       }
 
       return {
