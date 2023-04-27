@@ -35,7 +35,8 @@ export const LoginForm = () => {
           }, 3000);
           break;
         }
-        case 401 || 403: {
+        case 401:
+        case 403: {
           updateToast({ message });
           break;
         }
@@ -53,6 +54,7 @@ export const LoginForm = () => {
             required
             label="Email"
             size="medium"
+            type="email"
             variant="outlined"
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -64,7 +66,7 @@ export const LoginForm = () => {
             required
             label="Password"
             size="medium"
-            type="text"
+            type="password"
             variant="outlined"
             onChange={(e) => setPassword(e.target.value)}
           />
