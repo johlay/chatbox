@@ -1,5 +1,13 @@
 import logo from "../assets/logo.png";
+import { useAuth } from "../authorization/AuthProvider";
 import { Drawer } from "./Drawer";
+import {
+  navItemsLoggedIn,
+  navItemsLoggedOut,
+  mobileNavItemsLoggedIn,
+  NavMenuLoggedIn,
+  NavMenuLoggedOut,
+} from "./NavMenu";
 import {
   drawer as drawerVariables,
   margin as marginVariables,
@@ -7,7 +15,6 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,22 +25,11 @@ type HeaderProps = {
   window?: () => Window;
 };
 
-type Url = "/" | "/register" | "/login";
-
-export type NavItem = {
-  url: Url;
-  text: string;
-};
-
-const navItems: NavItem[] = [
-  { url: "/", text: "Home" },
-  { url: "/register", text: "Register" },
-  { url: "/login", text: "Login" },
-];
-
 export const Header = (props: HeaderProps) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const { user } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -66,16 +62,9 @@ export const Header = (props: HeaderProps) => {
             </Box>
             <Box component={"img"} src={logo} alt="logo" />
           </Typography>
+
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
-              <Button
-                key={item.text.toLocaleLowerCase()}
-                href={item.url}
-                sx={{ color: "#fff" }}
-              >
-                {item.text}
-              </Button>
-            ))}
+            {user ? <NavMenuLoggedIn /> : <NavMenuLoggedOut />}
           </Box>
         </Toolbar>
       </AppBar>
@@ -87,7 +76,7 @@ export const Header = (props: HeaderProps) => {
           onClose={handleDrawerToggle}
           MobileProps={{
             onClick: handleDrawerToggle,
-            items: navItems,
+            items: user ? mobileNavItemsLoggedIn : navItemsLoggedOut,
             heading: "Helpchat",
           }}
           ModalProps={{

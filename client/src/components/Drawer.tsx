@@ -1,4 +1,4 @@
-import { NavItem } from "./Header";
+import { NavItem } from "./NavMenu";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import MuiDrawer, { DrawerProps } from "@mui/material/Drawer";
@@ -28,7 +28,7 @@ export const Drawer = ({
       </Typography>
       <Divider sx={{ bgcolor: "#fff" }} />
       <List>
-        {MobileProps.items.map((item: NavItem) => (
+        {MobileProps.items.map((item) => (
           <ListItem key={item.text.toLowerCase()} disablePadding>
             <ListItemButton href={item.url} sx={{ textAlign: "center" }}>
               <ListItemText primary={item.text} />

@@ -16,9 +16,6 @@ export type NewUser = {
 };
 
 export type User = {
-  data: {
-    access_token: string;
-  };
   _id: string;
   email: string;
   first_name: string;
@@ -44,6 +41,7 @@ type Context = {
   register: (
     userInformation: NewUser
   ) => Promise<AuthResponseError | AuthResponseSuccess>;
+  user: User | null;
 };
 
 const AuthContext = createContext<Context>({} as Context);
@@ -68,6 +66,10 @@ export const AuthProvider = ({ children }: Props) => {
         `${base_url}/api/user/login`,
         userInformation
       );
+
+      if (response.status === 200) {
+        setUser(response.data.data.user);
+      }
 
       return {
         data: response.data.data,
@@ -127,7 +129,7 @@ export const AuthProvider = ({ children }: Props) => {
     }
   };
   return (
-    <AuthContext.Provider value={{ login, register }}>
+    <AuthContext.Provider value={{ login, register, user }}>
       {children}
     </AuthContext.Provider>
   );
