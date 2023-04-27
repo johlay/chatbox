@@ -45,6 +45,7 @@ type Context = {
   login: (
     userInformation: LoginCredentials
   ) => Promise<AuthResponseError | AuthResponseSuccess>;
+  logout: () => void;
   register: (
     userInformation: NewUser
   ) => Promise<AuthResponseError | AuthResponseSuccess>;
@@ -59,14 +60,14 @@ interface Props {
 
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
-  const [storage, setStorage] = useLocalStorage<User>("user");
+  const [storage, setStorage] = useLocalStorage<User | null>("user");
 
   useEffect(() => {
     if (!storage) {
       return;
     }
 
-    return setUser(storage);
+    setUser(storage);
   }, []);
 
   /**
@@ -111,6 +112,14 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   /**
+   * log out the user by resetting stateful values: "user", "storage"
+   */
+  const logout = () => {
+    setUser(null);
+    setStorage(null);
+  };
+
+  /**
    * register a new user
    * @param userInformation - input of type "User"
    * @returns an object containing information on the newly registered user.
@@ -146,7 +155,7 @@ export const AuthProvider = ({ children }: Props) => {
     }
   };
   return (
-    <AuthContext.Provider value={{ login, register, user }}>
+    <AuthContext.Provider value={{ login, logout, register, user }}>
       {children}
     </AuthContext.Provider>
   );

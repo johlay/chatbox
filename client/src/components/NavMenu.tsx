@@ -1,9 +1,11 @@
+import { useAuth } from "../authorization/AuthProvider";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type Url = "/" | "/register" | "/login" | "/logout" | "/profile";
 
@@ -43,10 +45,20 @@ export const renderNavItems = (navItems: NavItem[]) => {
 export const NavMenuLoggedIn = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
   const handleMenu = (e: React.MouseEvent<HTMLElement>) =>
     setAnchorEl(e.currentTarget);
 
   const handleClose = () => setAnchorEl(null);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
+  const handleNavigation = (url: Url) => navigate(url);
 
   return (
     <>
@@ -76,8 +88,10 @@ export const NavMenuLoggedIn = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>Log out</MenuItem>
+        <MenuItem onClick={() => handleNavigation("/profile")}>
+          Profile
+        </MenuItem>
+        <MenuItem onClick={() => handleLogout()}>Log out</MenuItem>
       </Menu>
     </>
   );
