@@ -1,7 +1,8 @@
-import { useAuth, User } from "../../authorization/AuthProvider";
-import { FormButton } from "../../components/";
-import { FieldSection, FormSection } from "../../components/layout";
-import { useToast } from "../../hooks/useToast";
+import { useAuth } from "../../../authorization/AuthProvider";
+import { FormButton } from "../../../components";
+import { FieldSection, FormSection } from "../../../components/layout";
+import { useToast } from "../../../hooks/useToast";
+import { checkFormInput } from "../utils";
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -44,9 +45,6 @@ const _FormTextField = styled(TextField)(
     },
   })
 );
-
-const checkFormInput = (user: User): boolean =>
-  Object.values(user).every((detail) => detail.length > 0);
 
 export const RegisterForm = () => {
   const [firstName, setFirstName] = useState("");

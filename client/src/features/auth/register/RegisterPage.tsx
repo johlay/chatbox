@@ -1,5 +1,5 @@
-import { SectionContainer } from "../../components/layout/";
-import { SectionHeading } from "../../components/layout/";
+import { SectionContainer } from "../../../components/layout";
+import { SectionHeading } from "../../../components/layout";
 import { RegisterForm } from "./RegisterForm";
 
 export const RegisterPage = () => {

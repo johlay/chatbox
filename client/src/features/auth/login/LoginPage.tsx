@@ -1,4 +1,4 @@
-import { SectionContainer, SectionHeading } from "../../components/layout/";
+import { SectionContainer, SectionHeading } from "../../../components/layout";
 import { LoginForm } from "./LoginForm";
 
 export const LoginPage = () => {

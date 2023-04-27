@@ -1,7 +1,7 @@
 import { AuthProvider } from "./authorization/AuthProvider";
 import { Header } from "./components/";
-import { LoginPage } from "./features/login/LoginPage";
-import { RegisterPage } from "./features/register/RegisterPage";
+import { LoginPage } from "./features/auth/login/LoginPage";
+import { RegisterPage } from "./features/auth/register/RegisterPage";
 import { theme } from "./theme/Theme";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { SnackbarProvider } from "notistack";
