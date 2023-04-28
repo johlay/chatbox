@@ -56,12 +56,12 @@ export const NavMenuLoggedIn = () => {
   const handleLogout = () => {
     logout();
     handleClose();
-    navigate("/");
+    navigate("/", { replace: true });
   };
 
   const handleNavigation = (url: Url) => {
     handleClose();
-    navigate(url);
+    navigate(url, { replace: true });
   };
 
   return (

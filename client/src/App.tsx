@@ -6,7 +6,7 @@ import { ChatPage } from "./features/chat/ChatPage";
 import { theme } from "./theme/Theme";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import { SnackbarProvider } from "notistack";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 const App = () => {
   return (
@@ -19,6 +19,7 @@ const App = () => {
               <Route path="/" element={<ChatPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="*" element={<Navigate to={"/"} />} />
             </Routes>
           </ThemeProvider>
         </BrowserRouter>
