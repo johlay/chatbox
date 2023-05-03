@@ -5,7 +5,6 @@ import {
   SectionHeading,
 } from "../../components/layout";
 import { ChatWindow } from "./ChatWindow";
-import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 
 export const ChatPage = () => {
@@ -21,7 +20,6 @@ export const ChatPage = () => {
           Services are only available for members.
         </Typography>
       </HeaderStack>
-      <Divider />
       {user && <ChatWindow />}
     </SectionContainer>
   );

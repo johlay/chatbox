@@ -1,63 +1,97 @@
 import { margin as marginVariables } from "../../components";
-import { SectionHeading } from "../../components/layout";
 import styled from "@emotion/styled";
-import { Avatar, Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import {
+  Avatar,
+  Box,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Divider from "@mui/material/Divider";
-
-const MessageArea = () => {
-  return <div>Message Area</div>;
-};
 
 const StyledPaper = styled(Paper)`
   padding: ${marginVariables.m4};
 `;
 
+const MessageArea = () => {
+  return (
+    <>
+      <TextField
+        fullWidth
+        placeholder="Type a message ..."
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton edge="end" color="primary">
+                <SendIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+    </>
+  );
+};
+
 const ChatReceiver = () => {
   return (
-    <Box sx={{ overflow: "hidden" }}>
-      <StyledPaper variant="outlined">
-        <Grid container wrap="nowrap" spacing={1}>
-          <Grid item>
-            <Avatar sx={{ color: "red" }}>CL</Avatar>
-          </Grid>
-          <Grid item xs zeroMinWidth alignSelf="center">
-            <Typography>Hello!</Typography>
-          </Grid>
+    // <Box>
+    <StyledPaper variant="outlined" sx={{ marginBottom: "0.50rem" }}>
+      <Grid container wrap="nowrap" spacing={1}>
+        <Grid item>
+          <Avatar sx={{ color: "red" }}>CL</Avatar>
         </Grid>
-      </StyledPaper>
-    </Box>
+        <Grid item xs zeroMinWidth alignSelf="center">
+          <Typography>Hello!</Typography>
+        </Grid>
+      </Grid>
+    </StyledPaper>
+    // </Box>
   );
 };
 
 const ChatSender = () => {
   return (
-    <Box sx={{ overflow: "hidden" }}>
-      <StyledPaper variant="outlined">
-        <Grid container wrap="nowrap" spacing={1} flexDirection={"row-reverse"}>
-          <Grid item>
-            <Avatar sx={{ color: "red" }}>JL</Avatar>
-          </Grid>
-          <Grid item xs zeroMinWidth alignSelf="center">
-            <Typography textAlign={"end"}>Hi!</Typography>
-          </Grid>
+    // <Box>
+    <StyledPaper variant="outlined" sx={{ marginBottom: "0.50rem" }}>
+      <Grid container wrap="nowrap" spacing={1} flexDirection={"row-reverse"}>
+        <Grid item>
+          <Avatar sx={{ color: "red" }}>JL</Avatar>
         </Grid>
-      </StyledPaper>
-    </Box>
+        <Grid item xs zeroMinWidth alignSelf="center">
+          <Typography textAlign={"end"}>Hi!</Typography>
+        </Grid>
+      </Grid>
+    </StyledPaper>
+    // </Box>
   );
 };
 
 const ChatBox = () => {
   return (
     <>
-      <Grid height="100%" container flexDirection={"column"} spacing={1}>
-        <Grid item>
-          <ChatReceiver />
-        </Grid>
-        <Grid item>
-          <ChatSender />
-        </Grid>
+      <Grid
+        id="scroll"
+        height={"380px"}
+        padding={marginVariables.m8}
+        sx={{ overflow: "hidden", overflowY: "scroll" }}
+      >
+        <ChatReceiver />
+        <ChatSender />
       </Grid>
-      <Grid>
+      <Grid
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        height={"15%"}
+        paddingLeft={marginVariables.m8}
+        paddingRight={marginVariables.m8}
+      >
         <MessageArea />
       </Grid>
     </>
@@ -66,8 +100,10 @@ const ChatBox = () => {
 
 const ChatHeader = () => {
   return (
-    <Stack height={"10%"}>
-      <SectionHeading text="Welcome to Helpchat!"></SectionHeading>
+    <Stack justifyContent={"center"} height={"10%"}>
+      <Typography align="center" gutterBottom={false} variant="h6">
+        Welcome to Helpchat!
+      </Typography>
     </Stack>
   );
 };
@@ -94,14 +130,12 @@ export const ChatWindow = () => {
     >
       <ChatHeader />
       <Divider sx={{ backgroundColor: "black" }} />
-      <Grid
-        height={"90%"}
-        container
-        columns={16}
-        // direction={"row"}
-        // sx={{ flexGrow: 1 }}
-      >
-        <Grid item xs={6} sx={{ backgroundColor: "" }}>
+      <Grid height={"90%"} container columns={16}>
+        <Grid
+          item
+          xs={6}
+          sx={{ backgroundColor: "", borderRight: "1px solid black" }}
+        >
           <ChatRooms />
         </Grid>
         <Grid item xs={10} sx={{ backgroundColor: "" }}>
