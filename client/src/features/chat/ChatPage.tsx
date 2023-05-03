@@ -4,7 +4,7 @@ import {
   SectionContainer,
   SectionHeading,
 } from "../../components/layout";
-import { ChatWindow } from "./ChatWindow";
+import { ChatBox } from "./ChatBox";
 import Typography from "@mui/material/Typography";
 
 export const ChatPage = () => {
@@ -20,7 +20,7 @@ export const ChatPage = () => {
           Services are only available for members.
         </Typography>
       </HeaderStack>
-      {user && <ChatWindow />}
+      {user && <ChatBox />}
     </SectionContainer>
   );
 };

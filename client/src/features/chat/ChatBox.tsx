@@ -1,24 +1,24 @@
 import { margin as marginVariables } from "../../components";
 import styled from "@emotion/styled";
 import SendIcon from "@mui/icons-material/Send";
-import {
-  Avatar,
-  Box,
-  Grid,
-  IconButton,
-  InputAdornment,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 
 const StyledPaper = styled(Paper)`
   padding: ${marginVariables.m4};
 `;
 
-const MessageArea = () => {
+const MessageField = () => {
   return (
     <>
       <TextField
@@ -72,7 +72,7 @@ const ChatSender = () => {
   );
 };
 
-const ChatBox = () => {
+const ChatWindow = () => {
   return (
     <>
       <Grid
@@ -92,7 +92,7 @@ const ChatBox = () => {
         paddingLeft={marginVariables.m8}
         paddingRight={marginVariables.m8}
       >
-        <MessageArea />
+        <MessageField />
       </Grid>
     </>
   );
@@ -110,15 +110,27 @@ const ChatHeader = () => {
 
 const ChatRooms = () => {
   return (
-    <Grid padding={marginVariables.m8}>
+    <List component="nav" sx={{ padding: marginVariables.m8 }}>
       <Typography variant="subtitle1">Chat Rooms</Typography>
-      <Typography variant="body2">Room 1</Typography>
-      <Typography variant="body2">Room 2</Typography>
-    </Grid>
+      <ListItemButton
+        component={Typography}
+        variant="body2"
+        sx={{ padding: marginVariables.m4 }}
+      >
+        Room 1
+      </ListItemButton>
+      <ListItemButton
+        component={Typography}
+        variant="body2"
+        sx={{ padding: marginVariables.m4 }}
+      >
+        Room 2
+      </ListItemButton>
+    </List>
   );
 };
 
-export const ChatWindow = () => {
+export const ChatBox = () => {
   return (
     <Box
       component="div"
@@ -139,7 +151,7 @@ export const ChatWindow = () => {
           <ChatRooms />
         </Grid>
         <Grid item xs={10} sx={{ backgroundColor: "" }}>
-          <ChatBox />
+          <ChatWindow />
         </Grid>
       </Grid>
     </Box>
