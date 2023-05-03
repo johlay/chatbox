@@ -1,11 +1,15 @@
+import { useAuth } from "../../authorization/AuthProvider";
 import {
   HeaderStack,
   SectionContainer,
   SectionHeading,
 } from "../../components/layout";
-import { Typography } from "@mui/material";
+import { ChatWindow } from "./ChatWindow";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
 
 export const ChatPage = () => {
+  const { user } = useAuth();
   return (
     <SectionContainer>
       <SectionHeading
@@ -17,6 +21,8 @@ export const ChatPage = () => {
           Services are only available for members.
         </Typography>
       </HeaderStack>
+      <Divider />
+      {user && <ChatWindow />}
     </SectionContainer>
   );
 };
