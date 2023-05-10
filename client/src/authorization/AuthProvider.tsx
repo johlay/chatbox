@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-const base_url = "http://localhost:8000";
+const BASE_URL = "http://localhost:8000";
 
 export type LoginCredentials = {
   email: string;
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }: Props) => {
   ): Promise<AuthResponseError | AuthResponseSuccess> => {
     try {
       const response = await axios.post(
-        `${base_url}/api/user/login`,
+        `${BASE_URL}/api/user/login`,
         userInformation
       );
 
@@ -129,7 +129,7 @@ export const AuthProvider = ({ children }: Props) => {
   ): Promise<AuthResponseError | AuthResponseSuccess> => {
     try {
       const response = await axios.post(
-        `${base_url}/api/user/register`,
+        `${BASE_URL}/api/user/register`,
         userInformation
       );
 
