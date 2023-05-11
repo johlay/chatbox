@@ -185,7 +185,9 @@ const ChatHeader = () => {
 
 const ChatRooms = ({
   selectRoom,
+  selectedRoom,
 }: {
+  selectedRoom: ChatRoom | null;
   selectRoom: (room: ChatRoom) => void;
 }) => {
   const [rooms, setRooms] = useState([]);
@@ -214,6 +216,7 @@ const ChatRooms = ({
             key={room.id}
             component={Typography}
             variant="body2"
+            selected={selectedRoom?.id === room.id}
             sx={{ padding: marginVariables.m4 }}
             onClick={() => selectRoom(room)}
           >
@@ -264,7 +267,7 @@ export const ChatBox = () => {
           xs={6}
           sx={{ backgroundColor: "", borderRight: "1px solid black" }}
         >
-          <ChatRooms selectRoom={selectRoom} />
+          <ChatRooms selectedRoom={selectedRoom} selectRoom={selectRoom} />
         </Grid>
         <Grid item xs={10} sx={{ backgroundColor: "" }}>
           <ChatWindow
