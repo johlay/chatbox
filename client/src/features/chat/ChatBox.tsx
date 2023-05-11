@@ -1,5 +1,7 @@
+import { User, useAuth } from "../../authorization/AuthProvider";
 import { margin as marginVariables } from "../../components";
 import { Message, ChatMessages, ChatRoom } from "./types";
+import { getNameInitials } from "./utils";
 import styled from "@emotion/styled";
 import SendIcon from "@mui/icons-material/Send";
 import Avatar from "@mui/material/Avatar";
@@ -18,7 +20,7 @@ import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:8000");
+const socket = io("http://localhost:8000", { autoConnect: false });
 
 const StyledPaper = styled(Paper)`
   padding: ${marginVariables.m4};
@@ -91,13 +93,19 @@ const MessageField = ({
   );
 };
 
-const ChatReceiver = ({ message }: { message: string }) => {
+const ChatReceiver = ({
+  message,
+  userNameInitials = "",
+}: {
+  message: string;
+  userNameInitials: string;
+}) => {
   return (
     // <Box>
     <StyledPaper variant="outlined" sx={{ marginBottom: "0.50rem" }}>
       <Grid container wrap="nowrap" spacing={1}>
         <Grid item>
-          <Avatar sx={{ color: "red" }}>CL</Avatar>
+          <Avatar sx={{ color: "red" }}>{userNameInitials}</Avatar>
         </Grid>
         <Grid item xs zeroMinWidth alignSelf="center">
           <Typography>{message}</Typography>
@@ -108,13 +116,19 @@ const ChatReceiver = ({ message }: { message: string }) => {
   );
 };
 
-const ChatSender = ({ message }: { message: string }) => {
+const ChatSender = ({
+  message,
+  userNameInitials = "",
+}: {
+  message: string;
+  userNameInitials: string;
+}) => {
   return (
     // <Box>
     <StyledPaper variant="outlined" sx={{ marginBottom: "0.50rem" }}>
       <Grid container wrap="nowrap" spacing={1} flexDirection={"row-reverse"}>
         <Grid item>
-          <Avatar sx={{ color: "red" }}>JL</Avatar>
+          <Avatar sx={{ color: "red" }}>{userNameInitials}</Avatar>
         </Grid>
         <Grid item xs zeroMinWidth alignSelf="center">
           <Typography textAlign={"end"}>{message}</Typography>
@@ -129,10 +143,12 @@ const ChatWindow = ({
   chatMessages,
   setChatMessages,
   selectedRoom,
+  user,
 }: {
   chatMessages: ChatMessages["messages"] | undefined;
   setChatMessages: (messages: Message[]) => void;
   selectedRoom: ChatRoom | null;
+  user: User | null;
 }) => {
   useEffect(() => {
     if (isEmpty(!selectedRoom)) {
@@ -149,9 +165,25 @@ const ChatWindow = ({
     chatMessages.map(
       ({ message, sender_socket_id }: Message, index: number) => {
         if (sender_socket_id === socket.id) {
-          return <ChatReceiver message={message} key={index} />;
+          return (
+            <ChatSender
+              userNameInitials={
+                user ? getNameInitials(user.first_name, user.last_name) : ""
+              }
+              message={message}
+              key={index}
+            />
+          );
         } else {
-          return <ChatSender message={message} key={index} />;
+          return (
+            <ChatReceiver
+              userNameInitials={
+                user ? getNameInitials(user.first_name, user.last_name) : ""
+              }
+              message={message}
+              key={index}
+            />
+          );
         }
       }
     );
@@ -242,6 +274,8 @@ export const ChatBox = () => {
   const [selectedRoom, setSelectedRoom] = useState<ChatRoom | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessages["messages"]>();
 
+  const { user } = useAuth();
+
   const selectRoom = (chatroom: ChatRoom) => setSelectedRoom(chatroom);
 
   useEffect(() => {
@@ -285,6 +319,7 @@ export const ChatBox = () => {
             // socketId={socketId}
             selectedRoom={selectedRoom}
             setChatMessages={setChatMessages}
+            user={user}
           />
         </Grid>
       </Grid>

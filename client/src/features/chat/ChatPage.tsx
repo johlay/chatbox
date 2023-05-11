@@ -7,20 +7,26 @@ import {
 import { ChatBox } from "./ChatBox";
 import Typography from "@mui/material/Typography";
 
+const WelcomeMessage = () => (
+  <>
+    <SectionHeading
+      text="Helpchat"
+      subtext="A real-time chat application that allows users to send and receive messages from several users on the application."
+    />
+    <HeaderStack>
+      <Typography variant="subtitle2">
+        Services are only available for members.
+      </Typography>
+    </HeaderStack>
+  </>
+);
+
 export const ChatPage = () => {
-  const { user } = useAuth();
+  const { isUserLoggedIn, user } = useAuth();
+
   return (
     <SectionContainer>
-      <SectionHeading
-        text="Helpchat"
-        subtext="A real-time chat application that allows users to send and receive messages from several users on the application."
-      />
-      <HeaderStack>
-        <Typography variant="subtitle2">
-          Services are only available for members.
-        </Typography>
-      </HeaderStack>
-      {user && <ChatBox />}
+      {isUserLoggedIn(user) ? <ChatBox /> : <WelcomeMessage />}
     </SectionContainer>
   );
 };

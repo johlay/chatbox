@@ -42,6 +42,7 @@ export interface AuthResponseError {
 }
 
 type Context = {
+  isUserLoggedIn: (user: User | null) => boolean;
   login: (
     userInformation: LoginCredentials
   ) => Promise<AuthResponseError | AuthResponseSuccess>;
@@ -69,6 +70,8 @@ export const AuthProvider = ({ children }: Props) => {
 
     setUser(storage);
   }, []);
+
+  const isUserLoggedIn = (user: User | null) => Boolean(user);
 
   /**
    * login an user
@@ -155,7 +158,9 @@ export const AuthProvider = ({ children }: Props) => {
     }
   };
   return (
-    <AuthContext.Provider value={{ login, logout, register, user }}>
+    <AuthContext.Provider
+      value={{ isUserLoggedIn, login, logout, register, user }}
+    >
       {children}
     </AuthContext.Provider>
   );
