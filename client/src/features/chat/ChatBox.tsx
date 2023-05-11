@@ -15,8 +15,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { isEmpty } from "lodash";
-import { useEffect, useState } from "react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const socket = io("http://localhost:8000");
@@ -34,11 +33,17 @@ const MessageField = ({
 }) => {
   const [messageToSend, setMessageToSend] = useState("");
 
+  useEffect(() => {
+    setMessageToSend("");
+  }, [selectedRoom]);
+
   if (!selectedRoom) {
     return null;
   }
 
-  const handleMessageToSend = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleMessageToSend = (
+    e: React.KeyboardEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement>
+  ) => {
     e.preventDefault();
 
     if (messageToSend.length < 1) {
@@ -53,7 +58,11 @@ const MessageField = ({
     socket.on("receive_messages", (roomMessages: ChatMessages) => {
       setChatMessages(roomMessages.messages);
     });
+
+    resetMessageToSend();
   };
+
+  const resetMessageToSend = () => setMessageToSend("");
 
   return (
     <>
@@ -63,6 +72,7 @@ const MessageField = ({
         value={messageToSend}
         placeholder="Type a message ..."
         onChange={(e) => setMessageToSend(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && handleMessageToSend(e)}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
