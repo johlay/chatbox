@@ -20,7 +20,7 @@ import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:8000", { autoConnect: false });
+const socket = io("http://localhost:8000", { autoConnect: true });
 
 const StyledPaper = styled(Paper)`
   padding: ${marginVariables.m4};
