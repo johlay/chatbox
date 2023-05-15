@@ -1,21 +1,13 @@
 import http from "http";
 import { Server } from "socket.io";
-
-type ChatRoom = {
-  id: string;
-  room_name: string;
-};
-
-type Message = {
-  message: string;
-  sender_user_id: string;
-};
-
-type ChatMessages = {
-  id: string;
-  messages: Message[];
-  users: string[];
-};
+import {
+  ChatMessages,
+  ChatRoom,
+  ClientToServerEvents,
+  ServerToClientEvents,
+  InterServerEvents,
+  SocketData,
+} from "./types";
 
 const CHAT_ROOMS: ChatRoom[] = [
   { id: "room1", room_name: "Room 1" },
@@ -26,32 +18,6 @@ let CHAT_MESSAGES: ChatMessages[] = [
   { id: "room1", messages: [], users: [] },
   { id: "room2", messages: [], users: [] },
 ];
-
-interface ClientToServerEvents {
-  chat_rooms: (_data: unknown) => void;
-  chat_room_messages: (roomId: string) => void;
-  join_room: (data: ChatRoom, userId: string) => void;
-  send_message: ({
-    msg,
-    roomId,
-    userId,
-  }: {
-    msg: string;
-    roomId: string;
-    userId: string;
-  }) => void;
-}
-
-interface ServerToClientEvents {
-  chat_rooms: (payload: ChatRoom[]) => void;
-  receive_messages: (payload: ChatMessages | undefined) => void;
-}
-
-interface InterServerEvents {
-  ping: () => void;
-}
-
-interface SocketData {}
 
 const initSocketIO = (server: http.Server) => {
   const io = new Server<

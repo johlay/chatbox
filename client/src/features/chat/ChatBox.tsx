@@ -1,6 +1,12 @@
 import { User, useAuth } from "../../authorization/AuthProvider";
 import { margin as marginVariables } from "../../components";
-import { Message, ChatMessages, ChatRoom } from "./types";
+import {
+  Message,
+  ChatMessages,
+  ChatRoom,
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from "./types";
 import { getNameInitials } from "./utils";
 import styled from "@emotion/styled";
 import SendIcon from "@mui/icons-material/Send";
@@ -19,26 +25,6 @@ import Typography from "@mui/material/Typography";
 import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
-
-interface ClientToServerEvents {
-  chat_rooms: (_data: unknown) => void;
-  chat_room_messages: (roomId: string) => void;
-  join_room: (data: ChatRoom | null, userId: string) => void;
-  send_message: ({
-    msg,
-    roomId,
-    userId,
-  }: {
-    msg: string;
-    roomId: string;
-    userId: string;
-  }) => void;
-}
-
-interface ServerToClientEvents {
-  chat_rooms: (payload: ChatRoom[]) => void;
-  receive_messages: (roomMessages: ChatMessages) => void;
-}
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:8000",
