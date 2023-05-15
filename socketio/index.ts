@@ -8,6 +8,7 @@ import {
   InterServerEvents,
   SocketData,
 } from "./types";
+import { logger } from "../logger";
 
 const CHAT_ROOMS: ChatRoom[] = [
   { id: "room1", room_name: "Room 1" },
@@ -32,7 +33,7 @@ const initSocketIO = (server: http.Server) => {
   });
 
   io.on("connection", async (socket) => {
-    console.info("client connected:", socket.id);
+    logger.info("client connected: %s", socket.id);
 
     socket.on("chat_rooms", (_data) => {
       socket.emit("chat_rooms", CHAT_ROOMS);
@@ -95,7 +96,7 @@ const initSocketIO = (server: http.Server) => {
     );
 
     socket.on("disconnect", (reason) => {
-      console.info("client disconnected due to reason:", reason);
+      logger.info("client disconnected due to reason: %s", reason);
     });
   });
 };

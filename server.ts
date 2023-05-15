@@ -4,6 +4,7 @@ import routes from "./mvc/routes";
 import { initSocketIO } from "./socketio";
 import cors from "cors";
 import http from "http";
+import { logger } from "./logger";
 import mongoose from "mongoose";
 
 const PORT: number = config.PORT;
@@ -24,10 +25,10 @@ app.use(cors(corsOptions));
 app.use("/api/", routes);
 
 mongoose.connect(config.MONGODB_CONNECTION as string, DB_OPTIONS).then(
-  () => console.log("Connection to MongoDB is etablished"),
-  (err) => console.error("error:", err)
+  () => logger.info("Connection to MongoDB is etablished"),
+  (err) => logger.error("error: %s", err)
 );
 
 server.listen(PORT, () => {
-  console.log("Server running on port:", PORT);
+  logger.info("Server running on port: %d", PORT);
 });
