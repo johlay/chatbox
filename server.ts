@@ -1,7 +1,7 @@
 import config from "./config/config";
 import app from "./express";
 import routes from "./mvc/routes";
-import { initSocketIO } from "./socketio/";
+import { initSocketIO } from "./socketio";
 import cors from "cors";
 import http from "http";
 import mongoose from "mongoose";

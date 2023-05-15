@@ -1,6 +1,6 @@
 export type Message = {
   message: string;
-  sender_socket_id: string;
+  sender_user_id: string;
 };
 
 export type ChatRoom = {

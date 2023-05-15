@@ -18,9 +18,32 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
-const socket = io("http://localhost:8000", { autoConnect: true });
+interface ClientToServerEvents {
+  chat_rooms: (_data: unknown) => void;
+  chat_room_messages: (roomId: string) => void;
+  join_room: (data: ChatRoom | null, userId: string) => void;
+  send_message: ({
+    msg,
+    roomId,
+    userId,
+  }: {
+    msg: string;
+    roomId: string;
+    userId: string;
+  }) => void;
+}
+
+interface ServerToClientEvents {
+  chat_rooms: (payload: ChatRoom[]) => void;
+  receive_messages: (roomMessages: ChatMessages) => void;
+}
+
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
+  "http://localhost:8000",
+  { autoConnect: true }
+);
 
 const StyledPaper = styled(Paper)`
   padding: ${marginVariables.m4};
@@ -29,9 +52,11 @@ const StyledPaper = styled(Paper)`
 const MessageField = ({
   selectedRoom,
   setChatMessages,
+  userId,
 }: {
   selectedRoom: ChatRoom | null;
   setChatMessages: (roomMessages: ChatMessages["messages"]) => void;
+  userId: string | null;
 }) => {
   const [messageToSend, setMessageToSend] = useState("");
 
@@ -55,6 +80,7 @@ const MessageField = ({
     socket.emit("send_message", {
       msg: messageToSend,
       roomId: selectedRoom.id,
+      userId: userId as string,
     });
 
     socket.on("receive_messages", (roomMessages: ChatMessages) => {
@@ -157,36 +183,34 @@ const ChatWindow = ({
   }, [selectedRoom]);
 
   const joinChatRoom = () => {
-    socket.emit("join_room", selectedRoom);
+    socket.emit("join_room", selectedRoom, user?._id as string);
   };
 
   const renderChatMessages =
     chatMessages &&
-    chatMessages.map(
-      ({ message, sender_socket_id }: Message, index: number) => {
-        if (sender_socket_id === socket.id) {
-          return (
-            <ChatSender
-              userNameInitials={
-                user ? getNameInitials(user.first_name, user.last_name) : ""
-              }
-              message={message}
-              key={index}
-            />
-          );
-        } else {
-          return (
-            <ChatReceiver
-              userNameInitials={
-                user ? getNameInitials(user.first_name, user.last_name) : ""
-              }
-              message={message}
-              key={index}
-            />
-          );
-        }
+    chatMessages.map(({ message, sender_user_id }: Message, index: number) => {
+      if (sender_user_id === user?._id) {
+        return (
+          <ChatSender
+            userNameInitials={
+              user ? getNameInitials(user.first_name, user.last_name) : ""
+            }
+            message={message}
+            key={index}
+          />
+        );
+      } else {
+        return (
+          <ChatReceiver
+            userNameInitials={
+              user ? getNameInitials(user.first_name, user.last_name) : ""
+            }
+            message={message}
+            key={index}
+          />
+        );
       }
-    );
+    });
 
   return (
     <>
@@ -209,6 +233,7 @@ const ChatWindow = ({
         <MessageField
           setChatMessages={setChatMessages}
           selectedRoom={selectedRoom}
+          userId={user && (user._id as string)}
         />
       </Grid>
     </>
@@ -232,7 +257,7 @@ const ChatRooms = ({
   selectedRoom: ChatRoom | null;
   selectRoom: (room: ChatRoom) => void;
 }) => {
-  const [rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState<[] | ChatRoom[]>([]);
 
   useEffect(() => {
     (() => {
@@ -241,7 +266,7 @@ const ChatRooms = ({
   }, []);
 
   const getChatRooms = () => {
-    socket.emit("chat_rooms");
+    socket.emit("chat_rooms", "");
 
     socket.on("chat_rooms", (data) => {
       setRooms(data);
@@ -270,7 +295,6 @@ const ChatRooms = ({
 };
 
 export const ChatBox = () => {
-  const [socketId, setSocketId] = useState<string>("");
   const [selectedRoom, setSelectedRoom] = useState<ChatRoom | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessages["messages"]>();
 
@@ -279,14 +303,8 @@ export const ChatBox = () => {
   const selectRoom = (chatroom: ChatRoom) => setSelectedRoom(chatroom);
 
   useEffect(() => {
-    if (socket.id) {
-      setSocketId(socket.id);
-    }
-  }, [socket]);
-
-  useEffect(() => {
     if (selectedRoom) {
-      socket.emit("chat_room_messages", selectedRoom?.id);
+      socket.emit("chat_room_messages", selectedRoom.id);
 
       socket.on("receive_messages", (roomMessages: ChatMessages) => {
         setChatMessages(roomMessages.messages);
@@ -316,7 +334,6 @@ export const ChatBox = () => {
         <Grid item xs={10} sx={{ backgroundColor: "" }}>
           <ChatWindow
             chatMessages={chatMessages}
-            // socketId={socketId}
             selectedRoom={selectedRoom}
             setChatMessages={setChatMessages}
             user={user}
