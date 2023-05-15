@@ -31,5 +31,5 @@ Server-side: "yarn run start:dev"
 
 - [] Class constructors for Rooms
 - [] JWT refresh tokens
-- [] Loggers for server-side
+- [x] Logger for server-side
 - [] Store room sessions using Redis (see socket.io examples - official documentations)
