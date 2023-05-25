@@ -1,62 +1,30 @@
-import { isEmpty } from "lodash";
-import { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import { io } from "socket.io-client";
+import { AuthProvider } from "./authorization/AuthProvider";
+import { Header } from "./components/";
+import { LoginPage } from "./features/auth/login/LoginPage";
+import { RegisterPage } from "./features/auth/register/RegisterPage";
+import { ChatPage } from "./features/chat/ChatPage";
+import { theme } from "./theme/Theme";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import { SnackbarProvider } from "notistack";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 const App = () => {
-  const [chat, setChat] = useState<any>([]);
-  const [clientMsg, setClientMsg] = useState("");
-  const [username, setUsername] = useState<string | undefined>("");
-  const socket = io("http://localhost:5000");
-
-  useEffect(() => {
-    socket.on("connect", () => {});
-
-    socket.on("chat_message", (data) => {
-      setChat([...chat, data]);
-    });
-
-    socket.on("disconnect", () => {});
-  }, [socket, chat]);
-
-  const onSend = () => {
-    socket.emit("chat_message", `${username}: ${clientMsg}`);
-    setClientMsg("");
-  };
-
   return (
-    <Container className="App">
-      <h1 className="my-3">Helpchat</h1>
-
-      <div>
-        <div>
-          <p className="fw-bold">Chat history:</p>
-          {!isEmpty(chat) && chat.map((msg: string) => <p>{msg}</p>)}
-        </div>
-        <hr />
-
-        <div>
-          <input
-            type="text"
-            placeholder="Enter your message"
-            value={clientMsg}
-            onChange={(e) => setClientMsg(e["target"]["value"])}
-          />
-          <input
-            type="text"
-            placeholder="Enter your name"
-            value={username}
-            onChange={(e) => setUsername(e["target"]["value"])}
-          />
-          <div className="mt-2">
-            <Button size={"sm"} onClick={() => onSend()}>
-              Send message
-            </Button>
-          </div>
-        </div>
-      </div>
-    </Container>
+    <AuthProvider>
+      <SnackbarProvider maxSnack={1}>
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <Header />
+            <Routes>
+              <Route path="/" element={<ChatPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="*" element={<Navigate to={"/"} />} />
+            </Routes>
+          </ThemeProvider>
+        </BrowserRouter>
+      </SnackbarProvider>
+    </AuthProvider>
   );
 };
 
