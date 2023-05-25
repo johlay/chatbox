@@ -230,7 +230,7 @@ const ChatHeader = () => {
   return (
     <Stack justifyContent={"center"} height={"10%"}>
       <Typography align="center" gutterBottom={false} variant="h6">
-        Welcome to Helpchat!
+        Welcome to Chatbox!
       </Typography>
     </Stack>
   );

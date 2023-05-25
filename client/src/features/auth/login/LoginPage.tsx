@@ -5,8 +5,8 @@ export const LoginPage = () => {
   return (
     <SectionContainer>
       <SectionHeading
-        text="Login to your Helpchat account"
-        subtext="Access your Helpchat profile using your email."
+        text="Login to your Chatbox account"
+        subtext="Access your Chatbox profile using your email."
       />
       <LoginForm />
     </SectionContainer>

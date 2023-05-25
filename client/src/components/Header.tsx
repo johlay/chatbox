@@ -58,7 +58,7 @@ export const Header = (props: HeaderProps) => {
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
             <Box component={"span"} sx={{ paddingRight: "0.2rem" }}>
-              Helpchat
+              Chatbox
             </Box>
             <Box component={"img"} src={logo} alt="logo" />
           </Typography>
@@ -77,7 +77,7 @@ export const Header = (props: HeaderProps) => {
           MobileProps={{
             onClick: handleDrawerToggle,
             items: user ? mobileNavItemsLoggedIn : navItemsLoggedOut,
-            heading: "Helpchat",
+            heading: "Chatbox",
           }}
           ModalProps={{
             keepMounted: true,

@@ -1,5 +1,5 @@
 {
-  "name": "helpchat-server",
+  "name": "chatbox-server",
   "version": "1.0.0",
   "description": "Help chat application for server side",
   "main": "server.ts",

@@ -1,5 +1,5 @@
 {
-  "name": "helpchat-client",
+  "name": "chatbox-client",
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
