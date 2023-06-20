@@ -29,15 +29,8 @@ export const getJwtAccessToken = (payload: JwtPayload) =>
   });
 
 export const validateLoginPassword = async (
-  res: Response,
   password: string,
   dbUserPassword: string
 ) => {
-  if (!(await bcrypt.compare(password, dbUserPassword))) {
-    return res
-      .status(403)
-      .json({ status: "error", message: "Authentication was unsuccessful" });
-  }
-
-  return;
+  return await bcrypt.compare(password, dbUserPassword);
 };

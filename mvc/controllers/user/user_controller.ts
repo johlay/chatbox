@@ -27,16 +27,20 @@ const login = async (req: Request, res: Response) => {
 
     const { _id, first_name, last_name, password: userDbPassword } = user;
 
-    await validateLoginPassword(res, password, userDbPassword);
+    if (!(await validateLoginPassword(password, userDbPassword))) {
+      return res
+        .status(403)
+        .json({ status: "error", message: "Authentication was unsuccessful" });
+    } else {
+      const payload = { _id, first_name, last_name, email };
+      const jwt_access_token = getJwtAccessToken(payload);
 
-    const payload = { _id, first_name, last_name, email };
-    const jwt_access_token = getJwtAccessToken(payload);
-
-    return res.status(200).json({
-      data: { access_token: jwt_access_token, user: payload },
-      message: "Authentication was successful",
-      status: "success",
-    });
+      return res.status(200).json({
+        data: { access_token: jwt_access_token, user: payload },
+        message: "Authentication was successful",
+        status: "success",
+      });
+    }
   } catch (error: unknown) {
     return res
       .status(401)
