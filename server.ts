@@ -25,7 +25,7 @@ app.use(cors(corsOptions));
 app.use("/api/", routes);
 
 mongoose.connect(config.MONGODB_CONNECTION as string, DB_OPTIONS).then(
-  () => logger.info("Connection to MongoDB is etablished"),
+  () => logger.info("Connection to MongoDB is established"),
   (err) => logger.error("error: %s", err)
 );
 

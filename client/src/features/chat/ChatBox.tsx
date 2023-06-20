@@ -27,7 +27,7 @@ import React, { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
-  "http://localhost:8000",
+  "http://localhost:8080",
   { autoConnect: true }
 );
 

@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = "http://localhost:8080";
 
 export type LoginCredentials = {
   email: string;
