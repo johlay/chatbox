@@ -10,7 +10,7 @@ import mongoose from "mongoose";
 const PORT: number = config.PORT;
 const DB_OPTIONS = {};
 
-const server = http.createServer(app);
+export const server = http.createServer(app);
 const corsOptions = {
   origin: "*",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
