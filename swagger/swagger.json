@@ -1,0 +1,57 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Chatbox application - API Documentation",
+    "description": "Chat box application for server side",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "http://localhost:8080",
+  "basePath": "/api",
+  "paths": {
+    "user/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login existing user",
+        "response": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "user/register": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Register a new user",
+        "response": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "required": ["first_name", "last_name", "email", "password"],
+      "properties": {
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
