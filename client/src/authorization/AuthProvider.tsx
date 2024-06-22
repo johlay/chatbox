@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }: Props) => {
   ): Promise<AuthResponseError | AuthResponseSuccess> => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/user/login`,
+        `${BASE_URL}/api/auth/login`,
         userInformation
       );
 
@@ -132,7 +132,7 @@ export const AuthProvider = ({ children }: Props) => {
   ): Promise<AuthResponseError | AuthResponseSuccess> => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/user/register`,
+        `${BASE_URL}/api/auth/register`,
         userInformation
       );
 
